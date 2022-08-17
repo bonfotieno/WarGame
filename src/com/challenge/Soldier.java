@@ -1,14 +1,14 @@
 package com.challenge;
 
-
 public class Soldier {
     private Gun gun;
     private Tank tank;
     private String militaryId;
     private char type; // A or E
     private final String shellModel;
-    public Soldier(String militaryId) {
+    public Soldier(String militaryId, char type) {
         this.militaryId = militaryId;
+        this.type = type;
         this.gun = new Gun();
         this.tank = new Tank("T127", 100);
         this.shellModel = tank.getModel();
