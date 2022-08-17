@@ -1,7 +1,5 @@
 package com.challenge;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class WarGame {
@@ -20,7 +18,7 @@ public class WarGame {
         Soldier soldier = new Soldier("MIL_ID_000747");
         int i = 0;
         while (i <= 10000) {
-           soldier.shoot();
+           soldier.shootBullets();
            if (new Random().nextInt() % 2 == 0)
                soldier.changeShootingMode();
            i += 1000;

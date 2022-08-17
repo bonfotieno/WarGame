@@ -1,8 +1,6 @@
 package com.challenge;
 
 
-import java.util.List;
-
 public class Soldier {
     private Gun gun;
     private String militaryId;
@@ -11,7 +9,7 @@ public class Soldier {
         this.militaryId = militaryId;
         this.gun = new Gun();
     }
-    public void shoot() {
+    public void shootBullets() {
         //System.out.println(this.militaryId + " shooting");
         this.gun.shootBullets();
     }
