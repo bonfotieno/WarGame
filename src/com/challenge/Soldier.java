@@ -13,7 +13,7 @@ public class Soldier {
         this.militaryId = militaryId;
         this.type = type;
         this.gun = new Gun();
-        this.tank = new Tank("T127", 100);
+        this.tank = new Tank("T127", 1000);
         this.jet = new Jet();
         this.shellModel = tank.getModel();
     }
@@ -27,7 +27,7 @@ public class Soldier {
         this.tank.shootShells();
     }
     public void changeShellModel(){
-        if (Objects.equals(this.shellModel, "canon"))
+        if (this.shellModel.equals("canon"))
             this.tank.setModel("long bow");
         else
             this.tank.setModel("canon");
