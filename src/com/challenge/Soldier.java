@@ -1,5 +1,7 @@
 package com.challenge;
 
+import java.util.Objects;
+
 public class Soldier {
     private Gun gun;
     private Tank tank;
@@ -25,7 +27,7 @@ public class Soldier {
         this.tank.shootShells();
     }
     public void changeShellModel(){
-        if (this.shellModel == "canon")
+        if (Objects.equals(this.shellModel, "canon"))
             this.tank.setModel("long bow");
         else
             this.tank.setModel("canon");

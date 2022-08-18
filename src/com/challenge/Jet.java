@@ -51,16 +51,19 @@ public class Jet {
     public void fire(){
         if (bullets > 0)
         {
-            if (this.jetType == "heavy fighter"){
-                bullets -= 10;
-                System.out.println("-");
-            }
-            else if(this.jetType == "fighter bomber") {
-                missiles --;
-                System.out.println(">>");
-            } else if (this.jetType == "Interceptor") {
-                missileIntercepts --;
-                System.out.println("<<");
+            switch (this.jetType) {
+                case "heavy fighter" -> {
+                    bullets -= 10;
+                    System.out.println("-");
+                }
+                case "fighter bomber" -> {
+                    missiles--;
+                    System.out.println(">>");
+                }
+                case "Interceptor" -> {
+                    missileIntercepts--;
+                    System.out.println("<<");
+                }
             }
         }
     }

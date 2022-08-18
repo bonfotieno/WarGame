@@ -34,7 +34,8 @@ public class WarGame {
                         soldier.changeShellModel();
                 } else if (weapon == 3) {
                     soldier.jetFiring();
-                    soldier.changeJetType();
+                    if (new Random().nextInt() % 2 == 0)
+                        soldier.changeJetType();
                 }
                 else{
                     System.out.println("No such weapon!!\nGame is ending...");

@@ -20,7 +20,7 @@ public class Tank {
     public void shootShells() {
         if (shells > 0)
         {
-            if (this.model == "canon"){
+            if (this.model.equals("canon")){
                 shells --;
                 System.out.println("-");
             }
