@@ -16,6 +16,9 @@ public class Jet {
         this.setMaxMissiles(500);
         this.setMaxBullets(500);
         this.setMaxMissileIntercept(500);
+        reloadMissiles();
+        reloadBullets();
+        reloadMissileIntercept();
     }
 
     public void reloadBullets() {

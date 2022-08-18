@@ -36,6 +36,11 @@ public class WarGame {
                     soldier.jetFiring();
                     soldier.changeJetType();
                 }
+                else{
+                    System.out.println("No such weapon!!\nGame is ending...");
+                    Thread.sleep(1000);
+                    break;
+                }
                 i += 1000;
             }
         }
