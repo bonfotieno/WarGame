@@ -1,20 +1,27 @@
 package com.challenge.tank;
 
-private enum TankModel{
-   CANON,
-
+enum TankModel{
+    CANON,
+    LONGBOW
 }
 public class Tank implements InterfaceTank {
     private String tankNumber;
-    private String model;
+    TankModel model;
     private int shells;
     private int maxShells;
 
     public Tank(String tankNumber, int maxShells) {
         this.tankNumber = tankNumber;
-        this.model = "canon";
+        this.model = TankModel.CANON;
         this.shells = maxShells;
         reloadShells();
+    }
+
+    public void changeTankModel() {
+        if (this.model.equals(TankModel.CANON))
+            this.setModel(TankModel.LONGBOW);
+        else
+            this.setModel(TankModel.CANON);
     }
 
     public void reloadShells() {
@@ -24,7 +31,7 @@ public class Tank implements InterfaceTank {
     public void shootShells() {
         if (shells > 0)
         {
-            if (this.model.equals("canon")){
+            if (this.model.equals(TankModel.CANON)){
                 shells --;
                 System.out.println("-");
             }
@@ -42,11 +49,11 @@ public class Tank implements InterfaceTank {
         this.tankNumber = tankNumber;
     }
 
-    public String getModel() {
+    public TankModel getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(TankModel model) {
         this.model = model;
     }
 

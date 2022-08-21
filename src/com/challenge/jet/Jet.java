@@ -65,7 +65,8 @@ public class Jet {
                     System.out.println("<<");
                 }
             }
-        }
+        }else
+            System.out.println("Your ran out of bullets");
     }
 
     public String getJetType() {

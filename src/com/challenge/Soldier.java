@@ -10,7 +10,7 @@ public class Soldier {
     private Jet jet;
     private String militaryId;
     private char type; // A or E
-    private final String shellModel;
+    private Than tankModel;
     public Soldier(String militaryId, char type) {
         this.militaryId = militaryId;
         this.type = type;
