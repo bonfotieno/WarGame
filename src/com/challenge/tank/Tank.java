@@ -13,7 +13,7 @@ public class Tank implements InterfaceTank {
     public Tank(String tankNumber, int maxShells) {
         this.tankNumber = tankNumber;
         this.model = TankModel.CANON;
-        this.shells = maxShells;
+        this.maxShells = maxShells;
         reloadShells();
     }
 
