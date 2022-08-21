@@ -1,4 +1,4 @@
-package com.challenge;
+package com.challenge.jet;
 
 import java.util.Scanner;
 

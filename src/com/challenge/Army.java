@@ -1,5 +1,8 @@
 package com.challenge;
 
+import com.challenge.gun.Gun;
+import com.challenge.tank.Tank;
+
 public class Army {
     private Soldier[] soldiers;
     private Gun[] guns;

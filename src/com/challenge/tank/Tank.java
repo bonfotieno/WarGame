@@ -1,4 +1,4 @@
-package com.challenge;
+package com.challenge.tank;
 
 public class Tank {
     private String tankNumber;

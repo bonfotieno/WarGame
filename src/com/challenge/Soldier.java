@@ -1,6 +1,8 @@
 package com.challenge;
 
-import java.util.Objects;
+import com.challenge.gun.Gun;
+import com.challenge.jet.Jet;
+import com.challenge.tank.Tank;
 
 public class Soldier {
     private Gun gun;
