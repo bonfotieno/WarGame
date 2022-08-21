@@ -10,14 +10,13 @@ public class Soldier {
     private Jet jet;
     private String militaryId;
     private char type; // A or E
-    private Than tankModel;
+
     public Soldier(String militaryId, char type) {
         this.militaryId = militaryId;
         this.type = type;
         this.gun = new Gun();
         this.tank = new Tank("T127", 1000);
         this.jet = new Jet();
-        this.shellModel = tank.getModel();
     }
     public void shootBullets() {
         this.gun.shootBullets();
@@ -29,10 +28,7 @@ public class Soldier {
         this.tank.shootShells();
     }
     public void changeShellModel(){
-        if (this.shellModel.equals("canon"))
-            this.tank.setModel("long bow");
-        else
-            this.tank.setModel("canon");
+        this.tank.changeTankModel();
     }
     public void jetFiring(){
         this.jet.fly();
