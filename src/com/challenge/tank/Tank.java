@@ -1,6 +1,10 @@
 package com.challenge.tank;
 
-public class Tank {
+private enum TankModel{
+   CANON,
+
+}
+public class Tank implements InterfaceTank {
     private String tankNumber;
     private String model;
     private int shells;
