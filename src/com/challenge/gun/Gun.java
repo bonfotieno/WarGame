@@ -25,7 +25,7 @@ public class Gun {
 
     public Gun() {
         this.shootingMode = 'S';
-        this.maxBullets = 1000;
+        this.maxBullets = 100;
         reloadBullets();
     }
     public void shootBullets() {
