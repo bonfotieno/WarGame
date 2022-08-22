@@ -8,18 +8,37 @@ public class Soldier {
     private Gun gun;
     private Tank tank;
     private Jet jet;
+    private boolean alive;
     private String militaryId;
-    private char type; // A or E
 
-    public Soldier(String militaryId, char type) {
+
+    public Soldier(String militaryId) {
         this.militaryId = militaryId;
-        this.type = type;
+        this.alive = true;
         this.gun = new Gun();
         this.tank = new Tank("T127", 1000);
         this.jet = new Jet();
     }
+    public boolean isAlive() {
+        return alive;
+    }
+    public void setGun(Gun gun) {
+        this.gun = gun;
+    }
+
+    public boolean gunHasBullets() {
+        if (this.gun.getBullets() > 0)
+            return true;
+        else
+            return false;
+    }
     public void shootBullets() {
+        System.out.println(this.militaryId + " shooting");
         this.gun.shootBullets();
+    }
+    public void shot() {
+        this.alive = false;
+        System.out.println(this.militaryId + " just died");
     }
     public void changeShootingMode() {
         this.gun.changeShootingMode();
