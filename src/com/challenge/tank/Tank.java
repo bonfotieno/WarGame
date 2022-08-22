@@ -33,11 +33,11 @@ public class Tank implements InterfaceTank {
         {
             if (this.model.equals(TankModel.CANON)){
                 shells --;
-                System.out.println("-");
+                System.out.println("^");
             }
             else {
                 shells -= 5;
-                System.out.println("--");
+                System.out.println("^^^");
             }
         }
     }
