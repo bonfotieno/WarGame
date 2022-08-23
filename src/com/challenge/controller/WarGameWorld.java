@@ -84,7 +84,7 @@ public class WarGameWorld {
         // [2 - No weapon has bullets
         while (true) {
             if (allSoldiersAreDead(ally)&&allSoldiersAreDead(enemy)){
-                System.out.println("All your soldiers are dead");
+                System.out.println("\nAll your soldiers are dead\nkindly enter new soldiers number:");
                 Scanner scan = new Scanner(System.in);
                 maxSoldiers = scan.nextInt();
                 setupGame();
