@@ -83,7 +83,7 @@ public class WarGameWorld {
             if (allSoldiersAreDead(ally) || allSoldiersAreDead(enemy)
                     || noWeaponHasBullets(ally) || noWeaponHasBullets(enemy))
                 break;
-            Thread.sleep(1);
+            Thread.sleep(100);
         }
     }
 }
