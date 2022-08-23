@@ -33,8 +33,10 @@ public class Soldier {
             return false;
     }
     public void shootBullets() {
-        System.out.println(this.militaryId + " shooting");
-        this.gun.shootBullets();
+        if (this.alive) {
+            System.out.println(this.militaryId + " shooting");
+            this.gun.shootBullets();
+        }
     }
     public void shot() {
         this.alive = false;

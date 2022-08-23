@@ -3,9 +3,10 @@ package com.challenge.controller;
 import com.challenge.Army;
 import com.challenge.Soldier;
 import java.util.Random;
+import java.util.Scanner;
 
 public class WarGameWorld {
-    private final static int maxSoldiers = 10;
+    private static int maxSoldiers = 10;
     private Army ally;
     private Army enemy;
     public WarGameWorld() {
@@ -28,10 +29,13 @@ public class WarGameWorld {
     }
 
     private boolean allSoldiersAreDead(Army army) {
-        for (int k = 0; k < army.getSoldiers().length; k ++)
-            if (army.getSoldiers()[k].isAlive())
-                return false;
-        return true;
+        boolean flagAlive = true;
+        for (int k = 0; k < army.getSoldiers().length; k ++) {
+            flagAlive = !army.getSoldiers()[k].isAlive();
+            if (flagAlive)
+                break;
+        }
+        return flagAlive;
     }
     private boolean noWeaponHasBullets(Army army) {
         for (int k = 0; k < army.getSoldiers().length; k ++)
@@ -79,10 +83,17 @@ public class WarGameWorld {
         // [1 - All soldiers are dead,
         // [2 - No weapon has bullets
         while (true) {
-            this.runGame();
-            if (allSoldiersAreDead(ally) || allSoldiersAreDead(enemy)
-                    || noWeaponHasBullets(ally) || noWeaponHasBullets(enemy))
+            if (allSoldiersAreDead(ally)&&allSoldiersAreDead(enemy)){
+                System.out.println("All your soldiers are dead");
+                Scanner scan = new Scanner(System.in);
+                maxSoldiers = scan.nextInt();
+                setupGame();
+            }else {
+                this.runGame();
+            }
+            if (noWeaponHasBullets(ally) || noWeaponHasBullets(enemy)){
                 break;
+            }
             Thread.sleep(100);
         }
     }
