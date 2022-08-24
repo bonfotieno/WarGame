@@ -2,6 +2,8 @@ package com.challenge.controller;
 
 import com.challenge.Army;
 import com.challenge.Soldier;
+
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -18,11 +20,11 @@ public class WarGameWorld {
         ally = new Army();
         enemy = new Army();
         // 1000 soldiers per army
-        Soldier[] allySoldiers = new Soldier[maxSoldiers];
-        Soldier[] enemySoldiers = new Soldier[maxSoldiers];
+        ArrayList<Soldier> allySoldiers = new ArrayList<>(maxSoldiers);
+        ArrayList<Soldier> enemySoldiers = new ArrayList<>(maxSoldiers);
         for (int k = 0; k < maxSoldiers; k ++) {
-            allySoldiers[k] = new Soldier("ALLY_00" + k);
-            enemySoldiers[k] = new Soldier("ENEMY_00" + k);
+            allySoldiers.add(new Soldier("ALLY_00" + k));
+            enemySoldiers.add(new Soldier("ENEMY_00" + k));
         }
         ally.setSoldiers(allySoldiers);
         enemy.setSoldiers(enemySoldiers);
@@ -30,16 +32,16 @@ public class WarGameWorld {
 
     private boolean allSoldiersAreDead(Army army) {
         boolean flagAlive = true;
-        for (int k = 0; k < army.getSoldiers().length; k ++) {
-            flagAlive = !army.getSoldiers()[k].isAlive();
+        for (int k = 0; k < army.getSoldiers().size(); k ++) {
+            flagAlive = !army.getSoldiers().get(k).isAlive();
             if (flagAlive)
                 break;
         }
         return flagAlive;
     }
     private boolean noWeaponHasBullets(Army army) {
-        for (int k = 0; k < army.getSoldiers().length; k ++)
-            if (army.getSoldiers()[k].gunHasBullets())
+        for (int k = 0; k < army.getSoldiers().size(); k ++)
+            if (army.getSoldiers().get(k).gunHasBullets())
                 return false;
         return true;
     }
@@ -50,29 +52,29 @@ public class WarGameWorld {
         {
             // enemy
             for (int k = 0; k < 10; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().length - 1);
-                enemy.getSoldiers()[soldierIndex].shootBullets();
+                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
+                enemy.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
             for (int k = 0; k < 10; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().length - 1);
+                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
                 choice = new Random().nextInt(10);
-                if (choice % 2 == 0 && ally.getSoldiers()[soldierIndex].isAlive())
-                    ally.getSoldiers()[soldierIndex].shot();
+                if (choice % 2 == 0 && ally.getSoldiers().get(soldierIndex).isAlive())
+                    ally.getSoldiers().get(soldierIndex).shot();
             }
         }
         else
         {
             for (int k = 0; k < 10; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().length - 1);
-                ally.getSoldiers()[soldierIndex].shootBullets();
+                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
+                ally.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
             for (int k = 0; k < 10; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().length - 1);
+                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
                 choice = new Random().nextInt(10);
-                if (choice % 2 == 0 && enemy.getSoldiers()[soldierIndex].isAlive())
-                    enemy.getSoldiers()[soldierIndex].shot();
+                if (choice % 2 == 0 && enemy.getSoldiers().get(soldierIndex).isAlive())
+                    enemy.getSoldiers().get(soldierIndex).shot();
             }
         }
     }
