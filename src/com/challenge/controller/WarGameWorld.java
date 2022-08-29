@@ -31,13 +31,13 @@ public class WarGameWorld {
     }
 
     private boolean allSoldiersAreDead(Army army) {
-        boolean flagAlive = true;
+        boolean flagDead = true;
         for (int k = 0; k < army.getSoldiers().size(); k ++) {
-            flagAlive = !army.getSoldiers().get(k).isAlive();
-            if (flagAlive)
+            flagDead = !army.getSoldiers().get(k).isAlive();
+            if (flagDead)
                 break;
         }
-        return flagAlive;
+        return flagDead;
     }
     private boolean noWeaponHasBullets(Army army) {
         for (int k = 0; k < army.getSoldiers().size(); k ++)
@@ -51,12 +51,12 @@ public class WarGameWorld {
         if (choice % 2 == 0)
         {
             // enemy
-            for (int k = 0; k < 10; k ++) {
+            for (int k = 0; k < maxSoldiers; k ++) {
                 int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
                 enemy.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
-            for (int k = 0; k < 10; k ++) {
+            for (int k = 0; k < maxSoldiers; k ++) {
                 int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
                 choice = new Random().nextInt(10);
                 if (choice % 2 == 0 && ally.getSoldiers().get(soldierIndex).isAlive())
@@ -65,12 +65,12 @@ public class WarGameWorld {
         }
         else
         {
-            for (int k = 0; k < 10; k ++) {
+            for (int k = 0; k < maxSoldiers; k ++) {
                 int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
                 ally.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
-            for (int k = 0; k < 10; k ++) {
+            for (int k = 0; k < maxSoldiers; k ++) {
                 int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
                 choice = new Random().nextInt(10);
                 if (choice % 2 == 0 && enemy.getSoldiers().get(soldierIndex).isAlive())
@@ -85,7 +85,8 @@ public class WarGameWorld {
         // [1 - All soldiers are dead,
         // [2 - No weapon has bullets
         while (true) {
-            if (allSoldiersAreDead(ally)&&allSoldiersAreDead(enemy)){
+            if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
+                System.out.println("True");
                 System.out.println("""
 
                         All your soldiers are dead.
