@@ -40,10 +40,13 @@ public class WarGameWorld {
     }
 
     private boolean noWeaponHasBullets(Army army) {
-        for (int k = 0; k < army.getSoldiers().size(); k ++)
-            if (army.getSoldiers().get(k).gunHasBullets())
-                return false;
-        return true;
+        boolean bulletsDepleted = true;
+        for (int k = 0; k < army.getSoldiers().size(); k ++) {
+            bulletsDepleted = !army.getSoldiers().get(k).gunHasBullets();
+            if (!bulletsDepleted)
+                break;
+        }
+        return bulletsDepleted;
     }
     private void runGame() {
         // randomize enemy or ally
@@ -100,7 +103,8 @@ public class WarGameWorld {
             }else {
                 this.runGame();
             }
-            if (noWeaponHasBullets(ally) || noWeaponHasBullets(enemy)){
+            if (noWeaponHasBullets(ally) && noWeaponHasBullets(enemy)){
+                System.out.println("Bullets are over. Exiting...");
                 break;
             }
             Thread.sleep(100);
