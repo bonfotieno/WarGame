@@ -90,9 +90,9 @@ public class WarGameWorld {
         while (true) {
             if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
                 System.out.println("""
-
-                        All your soldiers are dead.
-                        Enter 0 to exit or to continue playing enter New number of soldiers:""");
+                        \nAll your soldiers are dead.
+                        Enter 0 to exit or to continue playing enter New number of soldiers:"""
+                );
                 Scanner scan = new Scanner(System.in);
                 maxSoldiers = scan.nextInt();
                 if (maxSoldiers != 0){
