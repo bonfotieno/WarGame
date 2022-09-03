@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WarGameWorld {
-    private static int maxSoldiers = 5;
+    private static int maxSoldiers = 10;
     private Army ally;
     private Army enemy;
     public WarGameWorld() {
@@ -81,7 +81,7 @@ public class WarGameWorld {
             }
         }
     }
-    public void run() throws InterruptedException {
+    public void run() {
         // - Setup the game [Soldiers, Army (Ally, Enemy), Weapon Arsenal]
         // - Run the game [ Soldiers shoot at enemy, Control Weapons + Arsenal ]
         // - Control the game. Determine, when the game ends...
@@ -91,8 +91,8 @@ public class WarGameWorld {
             if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
                 System.out.println("""
                         \nAll your soldiers are dead.
-                        Enter 0 to exit or to continue playing enter New number of soldiers:"""
-                );
+                        Enter 0 to exit or to continue playing enter New number of soldiers:
+                """);
                 Scanner scan = new Scanner(System.in);
                 maxSoldiers = scan.nextInt();
                 if (maxSoldiers != 0){
@@ -107,7 +107,11 @@ public class WarGameWorld {
                 System.out.println("Bullets are over. Exiting...");
                 break;
             }
-            Thread.sleep(100);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
