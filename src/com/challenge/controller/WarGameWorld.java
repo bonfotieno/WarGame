@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WarGameWorld {
-    private static int maxSoldiers = 10;
+    private static int maxSoldiers = 5;
     private Army ally;
     private Army enemy;
     public WarGameWorld() {
@@ -19,7 +19,6 @@ public class WarGameWorld {
         // Create 2 armies (Ally and Enemy)
         ally = new Army();
         enemy = new Army();
-        // 1000 soldiers per army
         ArrayList<Soldier> allySoldiers = new ArrayList<>(maxSoldiers);
         ArrayList<Soldier> enemySoldiers = new ArrayList<>(maxSoldiers);
         for (int k = 0; k < maxSoldiers; k ++) {
@@ -34,11 +33,12 @@ public class WarGameWorld {
         boolean flagDead = true;
         for (int k = 0; k < army.getSoldiers().size(); k ++) {
             flagDead = !army.getSoldiers().get(k).isAlive();
-            if (flagDead)
+            if (!flagDead)
                 break;
         }
         return flagDead;
     }
+
     private boolean noWeaponHasBullets(Army army) {
         for (int k = 0; k < army.getSoldiers().size(); k ++)
             if (army.getSoldiers().get(k).gunHasBullets())
@@ -52,12 +52,12 @@ public class WarGameWorld {
         {
             // enemy
             for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
+                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() );
                 enemy.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
             for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
+                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() );
                 choice = new Random().nextInt(10);
                 if (choice % 2 == 0 && ally.getSoldiers().get(soldierIndex).isAlive())
                     ally.getSoldiers().get(soldierIndex).shot();
@@ -66,12 +66,12 @@ public class WarGameWorld {
         else
         {
             for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() - 1);
+                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() );
                 ally.getSoldiers().get(soldierIndex).shootBullets();
             }
             // ally
             for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() - 1);
+                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() );
                 choice = new Random().nextInt(10);
                 if (choice % 2 == 0 && enemy.getSoldiers().get(soldierIndex).isAlive())
                     enemy.getSoldiers().get(soldierIndex).shot();
@@ -86,7 +86,6 @@ public class WarGameWorld {
         // [2 - No weapon has bullets
         while (true) {
             if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
-                System.out.println("True");
                 System.out.println("""
 
                         All your soldiers are dead.
@@ -104,7 +103,7 @@ public class WarGameWorld {
             if (noWeaponHasBullets(ally) || noWeaponHasBullets(enemy)){
                 break;
             }
-            Thread.sleep(1000);
+            Thread.sleep(100);
         }
     }
 }
