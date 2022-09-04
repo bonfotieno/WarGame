@@ -9,8 +9,18 @@ import java.util.Scanner;
 
 public class WarGameWorld {
     private static int maxSoldiers = 10;
+    public static int SoldierChoice;
     private Army ally;
     private Army enemy;
+
+    public static int getMaxSoldiers() {
+        return maxSoldiers;
+    }
+
+    public static int getSoldierChoice() {
+        return SoldierChoice;
+    }
+
     public WarGameWorld() {
         this.setupGame();
     }
@@ -28,7 +38,6 @@ public class WarGameWorld {
         ally.setSoldiers(allySoldiers);
         enemy.setSoldiers(enemySoldiers);
     }
-
     private boolean allSoldiersAreDead(Army army) {
         boolean flagDead = true;
         for (int k = 0; k < army.getSoldiers().size(); k ++) {
@@ -38,7 +47,6 @@ public class WarGameWorld {
         }
         return flagDead;
     }
-
     private boolean noWeaponHasBullets(Army army) {
         boolean bulletsDepleted = true;
         for (int k = 0; k < army.getSoldiers().size(); k ++) {
@@ -49,37 +57,17 @@ public class WarGameWorld {
         return bulletsDepleted;
     }
     private void runGame() {
-        // randomize enemy or ally
-        int choice = new Random().nextInt(10);
-        if (choice % 2 == 0)
-        {
-            // enemy
-            for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() );
-                enemy.getSoldiers().get(soldierIndex).shootBullets();
-            }
-            // ally
-            for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() );
-                choice = new Random().nextInt(10);
-                if (choice % 2 == 0 && ally.getSoldiers().get(soldierIndex).isAlive())
-                    ally.getSoldiers().get(soldierIndex).shot();
-            }
+        SoldierShootingThread t1 = new SoldierShootingThread(ally, enemy);
+        SoldierShotThread t2 = new SoldierShotThread(ally, enemy);
+        t1.start();
+        t2.start();
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        else
-        {
-            for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(ally.getSoldiers().size() );
-                ally.getSoldiers().get(soldierIndex).shootBullets();
-            }
-            // ally
-            for (int k = 0; k < maxSoldiers; k ++) {
-                int soldierIndex = new Random().nextInt(enemy.getSoldiers().size() );
-                choice = new Random().nextInt(10);
-                if (choice % 2 == 0 && enemy.getSoldiers().get(soldierIndex).isAlive())
-                    enemy.getSoldiers().get(soldierIndex).shot();
-            }
-        }
+
     }
     public void run() {
         // - Setup the game [Soldiers, Army (Ally, Enemy), Weapon Arsenal]
@@ -87,6 +75,7 @@ public class WarGameWorld {
         // - Control the game. Determine, when the game ends...
 
         while (true) {
+            SoldierChoice = new Random().nextInt(10); // randomize enemy or ally choice
             if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
                 System.out.println("All your soldiers are dead. Enter 0 to exit" +
                         " or to continue playing enter New number of soldiers:");

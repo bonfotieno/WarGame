@@ -35,7 +35,11 @@ public class Soldier {
     public void shootBullets() {
         if (this.alive) {
             System.out.println(this.militaryId + " shooting");
-            this.gun.shootBullets();
+            try {
+                this.gun.shootBullets();
+            } catch (Exception e) {
+                System.out.println("###### BULLETS are over for: "+this.militaryId);
+            }
         }
     }
     public void shot() {

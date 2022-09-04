@@ -28,7 +28,7 @@ public class Gun {
         this.maxBullets = 5;
         reloadBullets();
     }
-    public void shootBullets() {
+    public void shootBullets() throws Exception {
         if (bullets > 0)
         {
             if (shootingMode == 'S'){
@@ -39,7 +39,8 @@ public class Gun {
                 bullets -= 5;
                 System.out.println("-----");
             }
-        }
+        }else
+            throw new Exception("bullets are depleted");
     }
     public int getBullets() {
         return bullets;
