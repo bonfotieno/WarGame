@@ -16,7 +16,7 @@ public class Soldier {
         this.militaryId = militaryId;
         this.alive = true;
         this.gun = new Gun();
-        this.tank = new Tank("T127", 1000);
+        this.tank = new Tank("T127", 100);
         this.jet = new Jet();
     }
     public boolean isAlive() {
@@ -38,7 +38,7 @@ public class Soldier {
             try {
                 this.gun.shootBullets();
             } catch (Exception e) {
-                System.out.println("###### BULLETS are over for: "+this.militaryId);
+                System.out.println("###### BULLETS are DEPLETED for: "+this.militaryId);
             }
         }
     }
