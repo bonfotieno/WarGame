@@ -85,14 +85,11 @@ public class WarGameWorld {
         // - Setup the game [Soldiers, Army (Ally, Enemy), Weapon Arsenal]
         // - Run the game [ Soldiers shoot at enemy, Control Weapons + Arsenal ]
         // - Control the game. Determine, when the game ends...
-        // [1 - All soldiers are dead,
-        // [2 - No weapon has bullets
+
         while (true) {
             if (allSoldiersAreDead(ally) && allSoldiersAreDead(enemy)){
-                System.out.println("""
-                        \nAll your soldiers are dead.
-                        Enter 0 to exit or to continue playing enter New number of soldiers:
-                """);
+                System.out.println("All your soldiers are dead. Enter 0 to exit" +
+                        " or to continue playing enter New number of soldiers:");
                 Scanner scan = new Scanner(System.in);
                 maxSoldiers = scan.nextInt();
                 if (maxSoldiers != 0){
@@ -108,7 +105,7 @@ public class WarGameWorld {
                 break;
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(700);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
