@@ -1,4 +1,4 @@
-package com.challenge.gun;
+package com.game.gun;
 
 public class Gun {
     int bullets;

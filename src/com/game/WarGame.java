@@ -1,7 +1,7 @@
-package com.challenge;
+package com.game;
 
 
-import com.challenge.controller.WarGameWorld;
+import com.game.controller.WarGameWorld;
 
 public class WarGame {
     public static void main(String[] args) throws InterruptedException {

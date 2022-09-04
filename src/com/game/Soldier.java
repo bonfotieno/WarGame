@@ -1,8 +1,8 @@
-package com.challenge;
+package com.game;
 
-import com.challenge.gun.Gun;
-import com.challenge.jet.Jet;
-import com.challenge.tank.Tank;
+import com.game.gun.Gun;
+import com.game.jet.Jet;
+import com.game.tank.Tank;
 
 public class Soldier {
     private Gun gun;

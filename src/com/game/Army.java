@@ -1,7 +1,7 @@
-package com.challenge;
+package com.game;
 
-import com.challenge.gun.Gun;
-import com.challenge.tank.Tank;
+import com.game.gun.Gun;
+import com.game.tank.Tank;
 
 import java.util.ArrayList;
 

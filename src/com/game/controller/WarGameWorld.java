@@ -1,7 +1,7 @@
-package com.challenge.controller;
+package com.game.controller;
 
-import com.challenge.Army;
-import com.challenge.Soldier;
+import com.game.Army;
+import com.game.Soldier;
 
 import java.util.ArrayList;
 import java.util.Random;

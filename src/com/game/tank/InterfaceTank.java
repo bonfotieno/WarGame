@@ -1,4 +1,4 @@
-package com.challenge.tank;
+package com.game.tank;
 
 public interface InterfaceTank {
     void reloadShells();
