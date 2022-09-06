@@ -108,14 +108,11 @@ public class WarGameWorld {
             readerFile.close();
             System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
             selection = readUserInputs.readLine();
-            if(selection.equals("1")){
-                    gameMode = GameMode.EASY;
-            } else if (selection.equals("2")) {
-                    gameMode = GameMode.MEDIUM;
-            } else if (selection.equals("3")) {
-                    gameMode = GameMode.HARD;
-            }else{
-                System.out.println("Wrong Selection The Default: Easy is used");
+            switch (selection) {
+                case "1" -> gameMode = GameMode.EASY;
+                case "2" -> gameMode = GameMode.MEDIUM;
+                case "3" -> gameMode = GameMode.HARD;
+                default -> System.out.println("Wrong Selection The Default: Easy is used");
             }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
