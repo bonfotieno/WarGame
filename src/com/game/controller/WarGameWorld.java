@@ -54,10 +54,11 @@ public class WarGameWorld {
         try {
             InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(profileFile));
             BufferedReader readerFile = new BufferedReader(inputReaderFile);
+            this.initialization();
             while (readerFile.ready()){
                 profileData.add(readerFile.readLine().split("[,]"));
             }
-            System.out.println(" Select a profile to start the Game:");
+            System.out.println("\n Select a profile to start the Game:");
             while(true) {
                 for (int j=0; j<profileData.size(); j++) {
                     System.out.println(" "+(j+1)+". "+profileData.get(j)[0]);
@@ -72,6 +73,7 @@ public class WarGameWorld {
                     System.out.println("Exiting...");
                     break;
                 } else {
+                    boolean breakThisLoop = false;
                     for (int i = 0; i < profileData.size(); i++) {
                         if (selection.equals(Integer.toString((i + 1)))) {
                             String[] playerProfile = profileData.get(i);
@@ -83,7 +85,7 @@ public class WarGameWorld {
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
                                             " is now playing ****************************\n");
-                                    Thread.sleep(500);
+                                    breakThisLoop = true;
                                     break; //breaks this while loop
                                 } else {
                                     System.out.println("Wrong Password! Enter Passwd again.");
@@ -98,12 +100,12 @@ public class WarGameWorld {
                             this.GameIsInitialized = false;
                         }
                     }
+                    if(breakThisLoop)
+                        break;
                 }
             }
             readerFile.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -200,7 +202,7 @@ public class WarGameWorld {
         }
         return bulletsDepleted;
     }
-    public static boolean isFileExists(File file) {
+    private boolean isFileExists(File file) {
         return file.exists() && !file.isDirectory();
     }
     public static int getMaxSoldiers() {
@@ -208,5 +210,18 @@ public class WarGameWorld {
     }
     public static int getSoldierChoice() {
         return SoldierChoice;
+    }
+    private void initialization() throws InterruptedException {
+        StringBuilder result = new StringBuilder();
+        String hex = "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d20636f" +
+                "70797269676874a9626f6e6e6965202d20626f6e66616365206f74" +
+                "69656e6f202d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2da";
+        for (int i = 0; i < hex.length() - 1; i += 2) {
+            String tempInHex = hex.substring(i, (i + 2));
+            int decimal = Integer.parseInt(tempInHex, 16);
+            result.append((char) decimal);
+        }
+        System.out.println(result.toString());
+        Thread.sleep(1200);
     }
 }
