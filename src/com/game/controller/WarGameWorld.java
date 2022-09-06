@@ -73,7 +73,7 @@ public class WarGameWorld {
                     break;
                 } else {
                     for (int i = 0; i < profileData.size(); i++) {
-                        if (userInputs.equals(Integer.toString((i + 1)))) {
+                        if (selection.equals(Integer.toString((i + 1)))) {
                             String[] playerProfile = profileData.get(i);
                             System.out.println("Enter Password for Profile: " + playerProfile[0]);
                             while (true) {
@@ -83,14 +83,18 @@ public class WarGameWorld {
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
                                             " is now playing ****************************\n");
-                                    break;
+                                    Thread.sleep(500);
+                                    break; //breaks this while loop
                                 } else {
                                     System.out.println("Wrong Password! Enter Passwd again.");
                                     this.GameIsInitialized = false;
                                 }
                             }
+                            break; //breaks this for loop
                         } else {
-                            System.out.println("Wrong Choice. Select a profile to start the Game:");
+                            if (i == profileData.size()-1) {//check if the loop has finished without a match of section
+                                System.out.println("Wrong Choice. Select a profile to start the Game:");
+                            }
                             this.GameIsInitialized = false;
                         }
                     }
@@ -98,6 +102,8 @@ public class WarGameWorld {
             }
             readerFile.close();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -110,7 +116,7 @@ public class WarGameWorld {
             System.out.println("Create a new game profile:\nEnter Username:");
             userInputs = readUserInputs.readLine();
             System.out.println("Enter a Password:");
-            writer1.write(userInputs+","+readUserInputs.readLine());
+            writer1.write(userInputs+","+readUserInputs.readLine()+"\n");
             writer1.flush();
             writer1.close();
             System.out.println("Profile created successfully.\n 1. Continue\n 0. Exit");
