@@ -50,6 +50,7 @@ public class WarGameWorld {
     private void initializeGame(){
         ArrayList<String[]> profileData = new ArrayList<>(); //this 2D to hold profileName and Password from the file
         String userInputs = "";
+        String selection = "";
         try {
             InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(profileFile));
             BufferedReader readerFile = new BufferedReader(inputReaderFile);
@@ -57,33 +58,41 @@ public class WarGameWorld {
                 profileData.add(readerFile.readLine().split("[,]"));
             }
             System.out.println(" Select a profile to start the Game:");
-            for (int j=0; j<profileData.size(); j++) {
-                System.out.println(" "+(j+1)+". "+profileData.get(j)[0]);
-            }
-            System.out.println(" *. Add New Profile");
-            userInputs = readUserInputs.readLine();
-            if(userInputs.equals("*")){
-                this.createGameProfile();
-            } else{
-                for (int i = 0; i < profileData.size(); i++) {
-                    if (userInputs.equals(Integer.toString((i + 1)))) {
-                        String[] playerProfile = profileData.get(i);
-                        System.out.println("Enter Password for Profile: " + playerProfile[0]);
-                        while (true) {
-                            userInputs = readUserInputs.readLine();
-                            if (userInputs.equals(playerProfile[1])) {
-                                this.GameIsInitialized = true;
-                                this.currentPlayer = playerProfile[0];
-                                System.out.println("*************** " + playerProfile[0] + " is now playing ***************");
-                                break;
-                            } else {
-                                System.out.println("Wrong Password! Enter Passwd again.");
-                                this.GameIsInitialized = false;
+            while(true) {
+                for (int j=0; j<profileData.size(); j++) {
+                    System.out.println(" "+(j+1)+". "+profileData.get(j)[0]);
+                }
+                System.out.println(" *. Add New Profile\n #. Exit");
+                selection = readUserInputs.readLine();
+
+                if (selection.equals("*")) {
+                    this.createGameProfile();
+                    break;
+                } else if (selection.equals("#")) {
+                    System.out.println("Exiting...");
+                    break;
+                } else {
+                    for (int i = 0; i < profileData.size(); i++) {
+                        if (userInputs.equals(Integer.toString((i + 1)))) {
+                            String[] playerProfile = profileData.get(i);
+                            System.out.println("Enter Password for Profile: " + playerProfile[0]);
+                            while (true) {
+                                userInputs = readUserInputs.readLine();
+                                if (userInputs.equals(playerProfile[1])) {
+                                    this.GameIsInitialized = true;
+                                    this.currentPlayer = playerProfile[0];
+                                    System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
+                                            " is now playing ****************************\n");
+                                    break;
+                                } else {
+                                    System.out.println("Wrong Password! Enter Passwd again.");
+                                    this.GameIsInitialized = false;
+                                }
                             }
+                        } else {
+                            System.out.println("Wrong Choice. Select a profile to start the Game:");
+                            this.GameIsInitialized = false;
                         }
-                    }else {
-                        System.out.print("Wrong Choice. ");
-                        this.GameIsInitialized = false;
                     }
                 }
             }
@@ -144,13 +153,10 @@ public class WarGameWorld {
         String userInputs;
         System.out.println("\n ############################### WAR GAME ##################################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
-            System.out.println("Initializing game...");
-            while (true){
-                this.initializeGame();
-                if(GameIsInitialized){
-                    this.runGame();
-                    break;
-                }
+            System.out.println("########################### Initializing game... ###########################");
+            this.initializeGame();
+            if(GameIsInitialized){
+                this.runGame();
             }
         }else{
             System.out.println("No Game Profile was found. Do want to create one(1 for YES and 0 for to Exit):");
