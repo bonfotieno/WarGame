@@ -54,7 +54,7 @@ public class WarGameWorld {
         try {
             InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(profileFile));
             BufferedReader readerFile = new BufferedReader(inputReaderFile);
-            this.initialization();
+            this.processInit();
             while (readerFile.ready()){
                 profileData.add(readerFile.readLine().split("[,]"));
             }
@@ -211,7 +211,7 @@ public class WarGameWorld {
     public static int getSoldierChoice() {
         return SoldierChoice;
     }
-    private void initialization() throws InterruptedException {
+    private void processInit() throws InterruptedException {
         StringBuilder result = new StringBuilder();
         String hex = "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d20636f" +
                 "70797269676874a9626f6e6e6965202d20626f6e66616365206f74" +
