@@ -143,7 +143,7 @@ public class WarGameWorld {
     private  void runGame(){
         while (true) {
             SoldierChoice = new Random().nextInt(10); // randomize enemy or ally choice
-            if (allSoldiersAreDead(Ally) && allSoldiersAreDead(Enemy)){
+            if (allSoldiersAreDead(Ally)){
                 System.out.println("All your soldiers are dead. Enter 0 to exit" +
                         " or to continue playing enter New number of soldiers:");
                 Scanner scan = new Scanner(System.in);
@@ -154,6 +154,9 @@ public class WarGameWorld {
                     break;
             }else {
                 this.GameThreadHandler();
+            }
+            if (allSoldiersAreDead(Enemy)) {
+                System.out.println("Game Ended with all Enemy Soldiers Dead");
             }
             if (noWeaponHasBullets(Ally) && noWeaponHasBullets(Enemy)){
                 System.out.println("Bullets are over. Exiting...");
