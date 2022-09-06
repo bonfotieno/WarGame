@@ -59,7 +59,7 @@ public class WarGameWorld {
             while (readerFile.ready()){
                 profileData.add(readerFile.readLine().split("[,]"));
             }
-            System.out.println("\n Select a profile to start the Game:");
+            System.out.println("\n Choose a profile to start the Game:");
             while(true) {
                 for (int j=0; j<profileData.size(); j++) {
                     System.out.println(" "+(j+1)+". "+profileData.get(j)[0]);
@@ -114,6 +114,8 @@ public class WarGameWorld {
                 case "3" -> gameMode = GameMode.HARD;
                 default -> System.out.println("Wrong Selection The Default: Easy is used");
             }
+            System.out.println("Enter Max Number of Soldiers:");
+            selection = readUserInputs.readLine();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -144,19 +146,14 @@ public class WarGameWorld {
         while (true) {
             SoldierChoice = new Random().nextInt(10); // randomize enemy or ally choice
             if (allSoldiersAreDead(Ally)){
-                System.out.println("All your soldiers are dead. Enter 0 to exit" +
-                        " or to continue playing enter New number of soldiers:");
-                Scanner scan = new Scanner(System.in);
-                maxSoldiers = scan.nextInt();
-                if (maxSoldiers != 0){
-                    setupGame();
-                }else
-                    break;
+                System.out.println("Game Ended with all Ally Soldiers Dead");
+                break;
             }else {
                 this.GameThreadHandler();
             }
             if (allSoldiersAreDead(Enemy)) {
                 System.out.println("Game Ended with all Enemy Soldiers Dead");
+                break;
             }
             if (noWeaponHasBullets(Ally) && noWeaponHasBullets(Enemy)){
                 System.out.println("Bullets are over. Exiting...");
