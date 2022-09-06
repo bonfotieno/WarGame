@@ -68,18 +68,19 @@ public class WarGameWorld {
                 for (int i = 0; i < profileData.size(); i++) {
                     if (userInputs.equals(Integer.toString((i + 1)))) {
                         String[] playerProfile = profileData.get(i);
-                        System.out.println("Enter Password for Profile: "+playerProfile[0]);
-                        userInputs = readUserInputs.readLine();
-                        if (userInputs.equals(playerProfile[1])) {
-                            this.GameIsInitialized = true;
-                            this.currentPlayer = playerProfile[0];
-                            System.out.println("*************** "+playerProfile[0]+" is now playing ***************");
-                        }else {
-                            System.out.println("Wrong Password! Enter Passwd again.");
-                            this.GameIsInitialized = false;
+                        System.out.println("Enter Password for Profile: " + playerProfile[0]);
+                        while (true) {
+                            userInputs = readUserInputs.readLine();
+                            if (userInputs.equals(playerProfile[1])) {
+                                this.GameIsInitialized = true;
+                                this.currentPlayer = playerProfile[0];
+                                System.out.println("*************** " + playerProfile[0] + " is now playing ***************");
+                                break;
+                            } else {
+                                System.out.println("Wrong Password! Enter Passwd again.");
+                                this.GameIsInitialized = false;
+                            }
                         }
-                        break;
-
                     }else {
                         System.out.print("Wrong Choice. ");
                         this.GameIsInitialized = false;
@@ -143,8 +144,8 @@ public class WarGameWorld {
         String userInputs;
         System.out.println("\n ############################### WAR GAME ##################################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
+            System.out.println("Initializing game...");
             while (true){
-                System.out.println("Initializing game...");
                 this.initializeGame();
                 if(GameIsInitialized){
                     this.runGame();
@@ -153,16 +154,16 @@ public class WarGameWorld {
             }
         }else{
             System.out.println("No Game Profile was found. Do want to create one(1 for YES and 0 for to Exit):");
+            userInputs = readUserInputs.readLine();
             while (true){
-                userInputs = readUserInputs.readLine();
                 if(userInputs.equals("1")) {
                     this.createGameProfile();
                     if(GameIsInitialized){
                         this.runGame();
-                        break;
                     }
+                    break;
                 } else if (userInputs.equals("0")) {
-                    System.out.println("Exiting");
+                    System.out.println("Exiting.....");
                     break;
                 } else
                     System.out.println("Wrong Choice. Enter Choice Again:");
