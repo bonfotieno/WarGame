@@ -144,6 +144,7 @@ public class WarGameWorld {
         System.out.println("\n ############################### WAR GAME ##################################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
             while (true){
+                System.out.println("Initializing game....");
                 this.initializeGame();
                 if(GameIsInitialized){
                     this.runGame();
