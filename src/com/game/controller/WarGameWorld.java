@@ -85,7 +85,7 @@ public class WarGameWorld {
                                     this.GameIsInitialized = true;
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
-                                            " is now playing ****************************\n");
+                                            " is now Playing ****************************\n");
                                     breakThisLoop = true;
                                     break; //breaks this while loop
                                 } else {
@@ -234,6 +234,6 @@ public class WarGameWorld {
             result.append((char) decimal);
         }
         System.out.println(result.toString());
-        Thread.sleep(1200);
+        Thread.sleep(700);
     }
 }

@@ -12,10 +12,10 @@ public class GunThread extends Thread {
     }
     private void SoldiersDying(Army army){
         GameMode gameMode = WarGameWorld.gameMode;
+        int range = 0;
         for (int k = 0; k < WarGameWorld.getMaxSoldiers(); k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
             if(army == WarGameWorld.Ally) {
-                int range = 0;
                 switch (gameMode){case EASY -> range = 3; case MEDIUM -> range=6; case HARD -> range=9;}
                 if (WarGameWorld.getSoldierChoice() <= range && army.getSoldiers().get(soldierIndex).isAlive())
                     army.getSoldiers().get(soldierIndex).shot();
