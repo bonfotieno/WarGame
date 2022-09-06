@@ -68,34 +68,36 @@ public class WarGameWorld {
         try {
             OutputStreamWriter outputWriter = new OutputStreamWriter(new FileOutputStream(profileFile, true));
             BufferedWriter writer1 = new BufferedWriter(outputWriter);
+            System.out.println("Create a new game profile:\nEnter Username:");
             userInputs = readUserInputs.readLine();
-            if(userInputs.equals("1")) {
-                System.out.println("Create a new game profile:\nEnter Username:");
-                userInputs = readUserInputs.readLine();
-                writer1.write(userInputs);
-                writer1.flush();
-                writer1.close();
-                System.out.println("Profile created successfully.\n 1. Continue\n 0. Exit");
-                userInputs = readUserInputs.readLine();
-                if(userInputs.equals("1")){
-                    this.initializeGame();
-                }else
-                    System.out.println("Exiting...");
-            } else if (userInputs.equals("0")) {
-                System.out.println("Exiting");
-            } else
-                System.out.println("Wrong Choice. Game is Terminating");
+            System.out.println("Enter a Password:");
+            writer1.write(userInputs+","+readUserInputs.readLine());
+            writer1.flush();
+            writer1.close();
+            System.out.println("Profile created successfully.\n 1. Continue\n 0. Exit");
+            userInputs = readUserInputs.readLine();
+            if(userInputs.equals("1")){
+                this.initializeGame();
+            }else
+                System.out.println("Exiting...");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void run(){
+    public void run() throws IOException {
+        String userInputs;
         System.out.println("\n  ############################ WAR GAME ############################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
             this.initializeGame();
         }else{
             System.out.println("No Game Profile was found. Do want to create one(1 for YES and 0 for to Exit):");
-            this.createGameProfile();
+            userInputs = readUserInputs.readLine();
+            if(userInputs.equals("1")) {
+                this.createGameProfile();
+            } else if (userInputs.equals("0")) {
+                System.out.println("Exiting");
+            } else
+                System.out.println("Wrong Choice. Game is Terminating");
         }
         //below to be in the run game, flagGameIsInitialized=
         while (true) {
