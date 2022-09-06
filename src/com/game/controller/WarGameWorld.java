@@ -20,7 +20,12 @@ public class WarGameWorld {
     private final File profileFile = new File("game_profile.data");
     private final InputStreamReader inputReader = new InputStreamReader(System.in);
     private final BufferedReader readUserInputs = new BufferedReader(inputReader);
-    public WarGameWorld() {this.setupGame();}
+    public WarGameWorld() {
+        this.setupGame();
+        if(dataFile.length()==0){
+            dataFile.r
+        }
+    }
     private void setupGame() {
         // Create 2 armies (Ally and Enemy)
         Ally = new Army();
@@ -49,7 +54,7 @@ public class WarGameWorld {
 
     }
     private void initializeGame(){
-        ArrayList<String[]> profileData = new ArrayList<>(); //this 2D to hold profileName and Password from the file
+        ArrayList<String[]> profileData = new ArrayList<>(); //this 2D array to hold profileName and Password from the file
         String userInputs = "";
         String selection = "";
         try {
@@ -137,6 +142,7 @@ public class WarGameWorld {
             System.out.println("Profile created successfully.\n 1. Continue\n 0. Exit");
             userInputs = readUserInputs.readLine();
             if(userInputs.equals("1")){
+                System.out.println("########################### Initializing game... ###########################");
                 this.initializeGame();
             }else
                 System.out.println("Exiting...");
