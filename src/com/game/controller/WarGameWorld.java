@@ -116,6 +116,8 @@ public class WarGameWorld {
             }
             System.out.println("Enter Max Number of Soldiers:");
             selection = readUserInputs.readLine();
+            maxSoldiers = Integer.parseInt(selection);
+            System.out.println("\n*************************** Enjoy Your Game ****************************\n");
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
