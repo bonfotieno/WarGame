@@ -105,6 +105,8 @@ public class WarGameWorld {
                 }
             }
             readerFile.close();
+            System.out.println("Select Game Mode:");
+
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
