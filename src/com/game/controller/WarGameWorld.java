@@ -15,7 +15,7 @@ public class WarGameWorld {
     public static Army Enemy;
     private boolean GameIsInitialized = false;
     private String currentPlayer;
-    private GameMode gameMode = GameMode.EASY; //this is the default
+    public static GameMode gameMode = GameMode.EASY; //this is the default
     private final File dataFile = new File("game_data.data");
     private final File profileFile = new File("game_profile.data");
     private final InputStreamReader inputReader = new InputStreamReader(System.in);
@@ -106,7 +106,7 @@ public class WarGameWorld {
                 }
             }
             readerFile.close();
-            System.out.println("Select Game Mode:\n 1. EASY\n2. MEDIUM\n3. HARD");
+            System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
             selection = readUserInputs.readLine();
             if(selection.equals("1")){
                     gameMode = GameMode.EASY;
