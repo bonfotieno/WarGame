@@ -6,25 +6,34 @@ import com.game.Soldier;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class WarGameWorld {
-    private static int maxSoldiers = 10;
+    public static Integer maxSoldiers = 10;
     public static int SoldierChoice;
     public static Army Ally;
     public static Army Enemy;
     private boolean GameIsInitialized = false;
+    public static boolean GameIsTerminated = false;
     private String currentPlayer;
     public static GameMode gameMode = GameMode.EASY; //this is the default
     private final File dataFile = new File("game_data.data");
     private final File profileFile = new File("game_profile.data");
     private final InputStreamReader inputReader = new InputStreamReader(System.in);
     private final BufferedReader readUserInputs = new BufferedReader(inputReader);
+    private OutputStreamWriter outputWriterFile;
+    private InputStreamReader inputReaderFile;
+    private BufferedWriter dataFileWriter;
+    private BufferedReader dataFileReader;
     public WarGameWorld() {
-        this.setupGame();
-        if(dataFile.length()==0){
-            dataFile.r
-        }
+        try {
+            this.inputReaderFile = new InputStreamReader(new FileInputStream(this.dataFile));
+            this.outputWriterFile = new OutputStreamWriter(new FileOutputStream(this.dataFile, true));
+            this.dataFileWriter = new BufferedWriter(this.outputWriterFile);
+            this.dataFileReader = new BufferedReader(this.inputReaderFile);
+            if(this.dataFile.length()==0){
+                this.dataFileWriter.write("");
+            }
+        } catch (IOException e) {}
     }
     private void setupGame() {
         // Create 2 armies (Ally and Enemy)
@@ -41,13 +50,24 @@ public class WarGameWorld {
     }
 
     private void GameThreadHandler() {
+        GenerateSoldierChoice t0 = new GenerateSoldierChoice();
         GunThread t1 = new GunThread();
         TankThread t2 = new TankThread();
+        Thread GameThread= new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runGame();
+            }
+        });
+        t0.start();
         t1.start();
         t2.start();
+        GameThread.start();
         try {
             t1.join();
             t2.join();
+            t0.join();
+            GameThread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -65,6 +85,7 @@ public class WarGameWorld {
                 profileData.add(readerFile.readLine().split("[,]"));
             }
             System.out.println("\n Choose a profile to start the Game:");
+            boolean breakThisLoop = false;
             while(true) {
                 for (int j=0; j<profileData.size(); j++) {
                     System.out.println(" "+(j+1)+". "+profileData.get(j)[0]);
@@ -79,7 +100,6 @@ public class WarGameWorld {
                     System.out.println("Exiting...");
                     break;
                 } else {
-                    boolean breakThisLoop = false;
                     for (int i = 0; i < profileData.size(); i++) {
                         if (selection.equals(Integer.toString((i + 1)))) {
                             String[] playerProfile = profileData.get(i);
@@ -106,23 +126,23 @@ public class WarGameWorld {
                             this.GameIsInitialized = false;
                         }
                     }
-                    if(breakThisLoop)
-                        break;
                 }
+                if(breakThisLoop)
+                    break;
             }
-            readerFile.close();
-            System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
-            selection = readUserInputs.readLine();
-            switch (selection) {
-                case "1" -> gameMode = GameMode.EASY;
-                case "2" -> gameMode = GameMode.MEDIUM;
-                case "3" -> gameMode = GameMode.HARD;
-                default -> System.out.println("Wrong Selection The Default: Easy is used");
-            }
-            System.out.println("Enter Max Number of Soldiers:");
-            selection = readUserInputs.readLine();
-            maxSoldiers = Integer.parseInt(selection);
-            System.out.println("\n*************************** Enjoy Your Game ****************************\n");
+        readerFile.close();
+        System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
+        selection = readUserInputs.readLine();
+        switch (selection) {
+            case "1" -> gameMode = GameMode.EASY;
+            case "2" -> gameMode = GameMode.MEDIUM;
+            case "3" -> gameMode = GameMode.HARD;
+        }
+        System.out.println("Enter Max Number of Soldiers:");
+        selection = readUserInputs.readLine();
+        maxSoldiers = Integer.parseInt(selection);
+        this.setupGame();
+        System.out.println("\n*************************** Enjoy Your Game ****************************\n");
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -150,16 +170,15 @@ public class WarGameWorld {
             throw new RuntimeException(e);
         }
     }
-    private  void runGame(){
+    public void runGame(){
         while (true) {
-            SoldierChoice = new Random().nextInt(10); // randomize enemy or ally choice
             if (allSoldiersAreDead(Ally)){
+                GameIsTerminated = true;
                 System.out.println("Game Ended with all Ally Soldiers Dead");
                 break;
-            }else {
-                this.GameThreadHandler();
             }
             if (allSoldiersAreDead(Enemy)) {
+                GameIsTerminated = true;
                 System.out.println("Game Ended with all Enemy Soldiers Dead");
                 break;
             }
@@ -167,11 +186,7 @@ public class WarGameWorld {
                 System.out.println("Bullets are over. Exiting...");
                 break;
             }
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
         }
     }
     public void run() throws IOException {
@@ -181,7 +196,7 @@ public class WarGameWorld {
             System.out.println("########################### Initializing game... ###########################");
             this.initializeGame();
             if(GameIsInitialized){
-                this.runGame();
+                this.GameThreadHandler();
             }
         }else{
             System.out.println("No Game Profile was found. Do want to create one(1 for YES and 0 for to Exit):");
@@ -190,7 +205,7 @@ public class WarGameWorld {
                 if(userInputs.equals("1")) {
                     this.createGameProfile();
                     if(GameIsInitialized){
-                        this.runGame();
+                        this.GameThreadHandler();
                     }
                     break;
                 } else if (userInputs.equals("0")) {
@@ -221,12 +236,6 @@ public class WarGameWorld {
     }
     private boolean isFileExists(File file) {
         return file.exists() && !file.isDirectory();
-    }
-    public static int getMaxSoldiers() {
-        return maxSoldiers;
-    }
-    public static int getSoldierChoice() {
-        return SoldierChoice;
     }
     private void processInit() throws InterruptedException {
         StringBuilder result = new StringBuilder();

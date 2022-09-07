@@ -5,34 +5,40 @@ import java.util.Random;
 
 public class GunThread extends Thread {
     private void SoldiersShooting(Army army){
-        for (int k = 0; k < WarGameWorld.getMaxSoldiers(); k ++) {
+        for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size());
-            army.getSoldiers().get(soldierIndex).shootBullets();
+            int random = new Random().nextInt(10);
+            if (random%2==0 && army.getSoldiers().get(soldierIndex).isAlive()) {
+                army.getSoldiers().get(soldierIndex).shootBullets();
+            }
         }
     }
     private void SoldiersDying(Army army){
         GameMode gameMode = WarGameWorld.gameMode;
         int range = 0;
-        for (int k = 0; k < WarGameWorld.getMaxSoldiers(); k ++) {
+        for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
+            int random = new Random().nextInt(10);
             if(army == WarGameWorld.Ally) {
                 switch (gameMode){case EASY -> range = 3; case MEDIUM -> range=6; case HARD -> range=9;}
-                if (WarGameWorld.getSoldierChoice() <= range && army.getSoldiers().get(soldierIndex).isAlive())
-                    army.getSoldiers().get(soldierIndex).shot();
+                if (WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
+                    army.getSoldiers().get(soldierIndex).shot();}
             }else{
-                if (army.getSoldiers().get(soldierIndex).isAlive())
+                if (random%2==0 && army.getSoldiers().get(soldierIndex).isAlive())
                     army.getSoldiers().get(soldierIndex).shot();
             }
         }
     }
     @Override
     public void run() {
-        if (WarGameWorld.getSoldierChoice() % 2 == 0){
-            this.SoldiersShooting(WarGameWorld.Enemy);
-            this.SoldiersDying(WarGameWorld.Ally);
-        }else {
-            this.SoldiersShooting(WarGameWorld.Ally);
-            this.SoldiersDying(WarGameWorld.Enemy);
+        while (!WarGameWorld.GameIsTerminated) {
+            if (WarGameWorld.SoldierChoice % 2 == 0) {
+                this.SoldiersShooting(WarGameWorld.Enemy);
+                this.SoldiersDying(WarGameWorld.Ally);
+            } else {
+                this.SoldiersShooting(WarGameWorld.Ally);
+                this.SoldiersDying(WarGameWorld.Enemy);
+            }
         }
     }
 }

@@ -6,10 +6,12 @@ public class TankThread extends Thread{
 
     @Override
     public void run() {
-        if (WarGameWorld.getSoldierChoice() % 2 == 0) {
-            // ally
-        }else{
-            //enemy
+        while(!WarGameWorld.GameIsTerminated) {
+            if (WarGameWorld.SoldierChoice % 2 == 0) {
+                // ally
+            } else {
+                //enemy
+            }
         }
     }
 }
