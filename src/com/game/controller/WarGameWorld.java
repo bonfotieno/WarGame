@@ -5,7 +5,6 @@ import com.game.Soldier;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class WarGameWorld {
     public static Integer maxSoldiers = 10;
@@ -48,7 +47,6 @@ public class WarGameWorld {
         Ally.setSoldiers(allySoldiers);
         Enemy.setSoldiers(enemySoldiers);
     }
-
     private void GameThreadHandler() {
         GenerateSoldierChoice t0 = new GenerateSoldierChoice();
         GunThread t1 = new GunThread();
@@ -96,10 +94,12 @@ public class WarGameWorld {
                 if (selection.equals("*")) {
                     this.createGameProfile();
                     break;
-                } else if (selection.equals("#")) {
+                }
+                else if (selection.equals("#")) {
                     System.out.println("Exiting...");
                     break;
-                } else {
+                }
+                else {
                     for (int i = 0; i < profileData.size(); i++) {
                         if (selection.equals(Integer.toString((i + 1)))) {
                             String[] playerProfile = profileData.get(i);
@@ -111,6 +111,10 @@ public class WarGameWorld {
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
                                             " is now Playing ****************************\n");
+                                    this.selectGameMode();
+                                    this.inputMaxSoldiers();
+                                    this.setupGame();
+                                    System.out.println("\n*************************** Enjoy Your Game ****************************\n");
                                     breakThisLoop = true;
                                     break; //breaks this while loop
                                 } else {
@@ -131,20 +135,21 @@ public class WarGameWorld {
                     break;
             }
         readerFile.close();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private  void inputMaxSoldiers() throws IOException {
+        System.out.println("Enter Max Number of Soldiers:");
+        maxSoldiers = Integer.parseInt(readUserInputs.readLine());
+    }
+    private void selectGameMode() throws IOException {
         System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
-        selection = readUserInputs.readLine();
+        String selection = readUserInputs.readLine();
         switch (selection) {
             case "1" -> gameMode = GameMode.EASY;
             case "2" -> gameMode = GameMode.MEDIUM;
             case "3" -> gameMode = GameMode.HARD;
-        }
-        System.out.println("Enter Max Number of Soldiers:");
-        selection = readUserInputs.readLine();
-        maxSoldiers = Integer.parseInt(selection);
-        this.setupGame();
-        System.out.println("\n*************************** Enjoy Your Game ****************************\n");
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
     private void createGameProfile(){
