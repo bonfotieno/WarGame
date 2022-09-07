@@ -20,7 +20,13 @@ public class GunThread extends Thread {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
             int random = new Random().nextInt(10);
             if(army == WarGameWorld.Ally) {
-                switch (gameMode){case EASY -> range = 3; case MEDIUM -> range=6; case HARD -> range=9;}
+                if (gameMode == GameMode.EASY) {
+                    range = 6;
+                } else if (gameMode == GameMode.MEDIUM) {
+                    range = 12;
+                } else if (gameMode == GameMode.HARD) {
+                    range = 18;
+                }
                 if (WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
                     army.getSoldiers().get(soldierIndex).shot();}
             }else{

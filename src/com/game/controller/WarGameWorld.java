@@ -59,11 +59,11 @@ public class WarGameWorld {
         });
         t0.start();
         t1.start();
-        t2.start();
+        //t2.start();
         GameThread.start();
         try {
             t1.join();
-            t2.join();
+            //t2.join();
             t0.join();
             GameThread.join();
         } catch (InterruptedException e) {
@@ -147,9 +147,17 @@ public class WarGameWorld {
         System.out.println("Select Game Mode:\n 1. EASY\n 2. MEDIUM\n 3. HARD");
         String selection = readUserInputs.readLine();
         switch (selection) {
-            case "1" -> gameMode = GameMode.EASY;
-            case "2" -> gameMode = GameMode.MEDIUM;
-            case "3" -> gameMode = GameMode.HARD;
+            case "1":
+                gameMode = GameMode.EASY;
+                break;
+            case "2":
+                gameMode = GameMode.MEDIUM;
+                break;
+            case "3":
+                gameMode = GameMode.HARD;
+                break;
+            default:
+                break;
         }
     }
     private void createGameProfile(){
