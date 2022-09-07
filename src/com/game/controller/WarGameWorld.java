@@ -191,7 +191,6 @@ public class WarGameWorld {
                 System.out.println("Bullets are over. Exiting...");
                 break;
             }
-
         }
     }
     public void run() throws IOException {
