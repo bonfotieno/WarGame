@@ -30,7 +30,9 @@ public class WarGameWorld {
             this.dataFileWriter = new BufferedWriter(this.outputWriterFile);
             this.dataFileReader = new BufferedReader(this.inputReaderFile);
             if(this.dataFile.length()==0){
-                this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score");
+                this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score\n");
+                this.dataFileWriter.flush();
+                this.dataFileWriter.close();
             }
         } catch (IOException e) {}
     }
@@ -54,7 +56,11 @@ public class WarGameWorld {
         Thread GameThread= new Thread(new Runnable() {
             @Override
             public void run() {
-                runGame();
+                try {
+                    runGame();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         t0.start();
@@ -183,8 +189,18 @@ public class WarGameWorld {
             throw new RuntimeException(e);
         }
     }
-    public void runGame(){
-        String AllyResults;
+
+    private int findKilledSoldiers(Army army){
+        int killed = 0;
+        for(int i = 0; i < army.getSoldiers().size();i++){
+            if (!army.getSoldiers().get(i).isAlive()) {
+                killed += 1;
+            }
+        }
+        return killed;
+    }
+    public void runGame() throws IOException {
+        String AllyResults = "null";
         while (true) {
             if (allSoldiersAreDead(Ally)){
                 GameIsTerminated = true;
@@ -201,6 +217,11 @@ public class WarGameWorld {
                 break;
             }
         }
+        int KilledAllySoldiers = findKilledSoldiers(Ally);
+        int KilledEnemySoldiers = findKilledSoldiers(Enemy);
+
+        dataFileWriter.write(currentPlayer+","+gameMode.toString()+","+AllyResults+"," +
+                ""+"Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers);
     }
     public void run() throws IOException {
         String userInputs;
