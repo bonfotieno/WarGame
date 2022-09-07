@@ -15,21 +15,19 @@ public class WarGameWorld {
     public static boolean GameIsTerminated = false;
     private String currentPlayer;
     public static GameMode gameMode = GameMode.EASY; //this is the default
-    private final File dataFile = new File("game_data.data");
-    private final File profileFile = new File("game_profile.data");
+    private final File profileFile = new File("game_profile.csv");
     private final InputStreamReader inputReader = new InputStreamReader(System.in);
     private final BufferedReader readUserInputs = new BufferedReader(inputReader);
-    private OutputStreamWriter outputWriterFile;
-    private InputStreamReader inputReaderFile;
     private BufferedWriter dataFileWriter;
     private BufferedReader dataFileReader;
     public WarGameWorld() {
         try {
-            this.inputReaderFile = new InputStreamReader(new FileInputStream(this.dataFile));
-            this.outputWriterFile = new OutputStreamWriter(new FileOutputStream(this.dataFile, true));
-            this.dataFileWriter = new BufferedWriter(this.outputWriterFile);
-            this.dataFileReader = new BufferedReader(this.inputReaderFile);
-            if(this.dataFile.length()==0){
+            File dataFile = new File("game_data.csv");
+            InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(dataFile));
+            OutputStreamWriter outputWriterFile = new OutputStreamWriter(new FileOutputStream(dataFile, true));
+            this.dataFileWriter = new BufferedWriter(outputWriterFile);
+            this.dataFileReader = new BufferedReader(inputReaderFile);
+            if(dataFile.length()==0){
                 this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score\n");
                 this.dataFileWriter.flush();
             }
@@ -122,7 +120,8 @@ public class WarGameWorld {
                                 }
                             }
                             break; //breaks this for loop
-                        } else {
+                        }
+                        else {
                             if (i == profileData.size()-1) {//check if the loop has finished without a match of section
                                 System.out.println("Wrong Choice. Select a profile to start the Game:");
                             }
@@ -182,7 +181,6 @@ public class WarGameWorld {
             throw new RuntimeException(e);
         }
     }
-
     private int findKilledSoldiers(Army army){
         int killed = 0;
         for(int i = 0; i < army.getSoldiers().size();i++){
@@ -215,7 +213,7 @@ public class WarGameWorld {
             int KilledAllySoldiers = findKilledSoldiers(Ally);
             int KilledEnemySoldiers = findKilledSoldiers(Enemy);
             dataFileWriter.write(currentPlayer.toUpperCase()+","+gameMode.toString()+","+AllyResults+"," +
-                    ", Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+"\n");
+                            "Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+"\n");
             dataFileWriter.flush();
             dataFileWriter.close();
             System.out.println("\nGame Score:\n--------------");
