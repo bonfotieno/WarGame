@@ -184,15 +184,16 @@ public class WarGameWorld {
         }
     }
     public void runGame(){
+        String AllyResults;
         while (true) {
             if (allSoldiersAreDead(Ally)){
                 GameIsTerminated = true;
-                System.out.println("Game Ended with all Ally Soldiers Dead");
+                AllyResults = "LOST";
                 break;
             }
             if (allSoldiersAreDead(Enemy)) {
                 GameIsTerminated = true;
-                System.out.println("Game Ended with all Enemy Soldiers Dead");
+                AllyResults = "WIN";
                 break;
             }
             if (noWeaponHasBullets(Ally) && noWeaponHasBullets(Enemy)){
