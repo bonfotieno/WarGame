@@ -27,7 +27,7 @@ public class GunThread extends Thread {
                 } else if (gameMode == GameMode.HARD) {
                     range = 18;
                 }
-                if (WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
+                if (random%2==0 && WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
                     army.getSoldiers().get(soldierIndex).shot();}
             }else{
                 if (random%2==0 && army.getSoldiers().get(soldierIndex).isAlive())

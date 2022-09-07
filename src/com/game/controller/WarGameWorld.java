@@ -32,7 +32,6 @@ public class WarGameWorld {
             if(this.dataFile.length()==0){
                 this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score\n");
                 this.dataFileWriter.flush();
-                this.dataFileWriter.close();
             }
         } catch (IOException e) {}
     }
@@ -55,13 +54,7 @@ public class WarGameWorld {
         TankThread t2 = new TankThread();
         Thread GameThread= new Thread(new Runnable() {
             @Override
-            public void run() {
-                try {
-                    runGame();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            public void run() {runGame();}
         });
         t0.start();
         t1.start();
@@ -199,7 +192,7 @@ public class WarGameWorld {
         }
         return killed;
     }
-    public void runGame() throws IOException {
+    public void runGame(){
         String AllyResults = "null";
         while (true) {
             if (allSoldiersAreDead(Ally)){
@@ -217,11 +210,23 @@ public class WarGameWorld {
                 break;
             }
         }
-        int KilledAllySoldiers = findKilledSoldiers(Ally);
-        int KilledEnemySoldiers = findKilledSoldiers(Enemy);
-
-        dataFileWriter.write(currentPlayer+","+gameMode.toString()+","+AllyResults+"," +
-                ""+"Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers);
+        try {
+            Thread.sleep(1000);
+            int KilledAllySoldiers = findKilledSoldiers(Ally);
+            int KilledEnemySoldiers = findKilledSoldiers(Enemy);
+            dataFileWriter.write(currentPlayer.toUpperCase()+","+gameMode.toString()+","+AllyResults+"," +
+                    ", Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+"\n");
+            dataFileWriter.flush();
+            dataFileWriter.close();
+            System.out.println("\nGame Score:\n--------------");
+            System.out.println(" Player: "+currentPlayer.toUpperCase()+
+                    "\n Game Mode: "+gameMode+
+                    "\n Status: "+AllyResults+
+                    "\n Killed Ally: "+KilledAllySoldiers+
+                    "\n Killed Enemy: "+KilledEnemySoldiers);
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void run() throws IOException {
         String userInputs;
@@ -282,6 +287,6 @@ public class WarGameWorld {
             result.append((char) decimal);
         }
         System.out.println(result.toString());
-        Thread.sleep(700);
+        Thread.sleep(500);
     }
 }
