@@ -10,8 +10,6 @@ public class Soldier {
     private Jet jet;
     private boolean alive;
     private String militaryId;
-
-
     public Soldier(String militaryId) {
         this.militaryId = militaryId;
         this.alive = true;
@@ -22,15 +20,15 @@ public class Soldier {
     public boolean isAlive() {
         return alive;
     }
-    public void setGun(Gun gun) {
-        this.gun = gun;
-    }
-
     public boolean gunHasBullets() {
         if (this.gun.getBullets() > 0)
             return true;
         else
             return false;
+    }
+    public void shot() {
+        this.alive = false;
+        System.out.println("\t"+this.militaryId + " just died");
     }
     public void shootBullets() {
         if (this.alive) {
@@ -42,24 +40,22 @@ public class Soldier {
             }
         }
     }
-    public void shot() {
-        this.alive = false;
-        System.out.println("\t"+this.militaryId + " just died");
-    }
-    public void changeShootingMode() {
-        this.gun.changeShootingMode();
-    }
     public void shootShells(){
         this.tank.shootShells();
     }
-    public void changeShellModel(){
-        this.tank.changeTankModel();
-    }
     public void jetFiring(){
-        this.jet.fly();
         this.jet.fire();
     }
     public void changeJetType(){
         this.jet.chooseJetType();
+    }
+    public void changeGunShootingMode() {
+        this.gun.changeShootingMode();
+    }
+    public void changeTankModel(){
+        this.tank.changeTankModel();
+    }
+    public void setGun(Gun gun) {
+        this.gun = gun;
     }
 }

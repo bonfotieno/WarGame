@@ -29,7 +29,8 @@ public class GunThread extends Thread {
                 }
                 if (random%10==0 && WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
                     army.getSoldiers().get(soldierIndex).shot();}
-            }else{
+            }
+            else{
                 if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive())
                     army.getSoldiers().get(soldierIndex).shot();
             }
