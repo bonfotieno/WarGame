@@ -26,21 +26,22 @@ public class WeaponsInActionThread extends Thread {
         for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
             int random = new Random().nextInt(20);
-            if(army == WarGameWorld.Ally) {
-                if (gameMode == GameMode.EASY) {
-                    range = 6;
-                } else if (gameMode == GameMode.MEDIUM) {
-                    range = 12;
-                } else if (gameMode == GameMode.HARD) {
-                    range = 18;
+
+                if(army == WarGameWorld.Ally) {
+                    if (gameMode == GameMode.EASY) {
+                        range = 6;
+                    } else if (gameMode == GameMode.MEDIUM) {
+                        range = 12;
+                    } else if (gameMode == GameMode.HARD) {
+                        range = 18;
+                    }
+                    if (random%10==0 && WarGameWorld.SoldierChoice <=
+                            range && army.getSoldiers().get(soldierIndex).isAlive()){
+                        army.getSoldiers().get(soldierIndex).shot();}
+                } else{
+                    if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive())
+                        army.getSoldiers().get(soldierIndex).shot();
                 }
-                if (random%10==0 && WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
-                    army.getSoldiers().get(soldierIndex).shot();}
-            }
-            else{
-                if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive())
-                    army.getSoldiers().get(soldierIndex).shot();
-            }
         }
     }
     @Override
