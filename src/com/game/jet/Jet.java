@@ -46,15 +46,18 @@ public class Jet {
             switch (this.jetType) {
                 case "heavy fighter": {
                     bullets -= 10;
-                    System.out.println("-");
+                    System.out.println("\t>>");
+                    break;
                 }
                 case "fighter bomber": {
                     missiles--;
-                    System.out.println(">>");
+                    System.out.println("\t>>>");
+                    break;
                 }
                 case "Interceptor": {
                     missileIntercepts--;
-                    System.out.println("<<");
+                    System.out.println("\t<<");
+                    break;
                 }
             }
         }else

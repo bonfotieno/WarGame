@@ -30,11 +30,11 @@ public class Tank implements InterfaceTank {
         {
             if (this.model.equals(TankModel.CANON)){
                 shells --;
-                System.out.println("^");
+                System.out.println("\t^");
             }
             else {
                 shells -= 5;
-                System.out.println("^^^");
+                System.out.println("\t^^^");
             }
         }else
             throw new Exception("The Jet ran out of Shells");

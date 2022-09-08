@@ -26,7 +26,7 @@ public class WeaponsInActionThread extends Thread {
         for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
             int random = new Random().nextInt(20);
-
+            // remember to make changes here on dead upon weapon choice
                 if(army == WarGameWorld.Ally) {
                     if (gameMode == GameMode.EASY) {
                         range = 6;
