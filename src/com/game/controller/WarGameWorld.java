@@ -153,6 +153,7 @@ public class WarGameWorld {
             while (dataFileReader.ready()) {
                 scores.add(dataFileReader.readLine().split("[,]"));
             }
+            scores.remove(0);
             System.out.println("\t  Game Mode    Score Status    Score");
             System.out.println("\t  -----------------------------------------------------------");
             for (int i = 0; i < scores.size(); i++) {
