@@ -33,7 +33,7 @@ public class Gun {
         {
             if (shootingMode == 'S'){
                 bullets --;
-                System.out.println("-");
+                System.out.println("\t"+"-");
             }
             else {
                 bullets -= 5;

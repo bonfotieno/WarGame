@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class WarGameWorld {
-    public static Integer maxSoldiers = 10;
+    public static Integer maxSoldiers;
     public static int SoldierChoice;
     public static Army Ally;
     public static Army Enemy;
@@ -21,6 +21,9 @@ public class WarGameWorld {
     private BufferedWriter dataFileWriter;
     private BufferedReader dataFileReader;
     public WarGameWorld() {
+        this.initializeGameDataReadWrite();
+    }
+    private void initializeGameDataReadWrite(){
         try {
             File dataFile = new File("game_data.csv");
             InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(dataFile));
@@ -31,7 +34,9 @@ public class WarGameWorld {
                 this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score\n");
                 this.dataFileWriter.flush();
             }
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void setupGame() {
         // Create 2 armies (Ally and Enemy)
@@ -74,10 +79,10 @@ public class WarGameWorld {
         String selection = "";
         try {
             InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(profileFile));
-            BufferedReader readerFile = new BufferedReader(inputReaderFile);
+            BufferedReader readerProfile = new BufferedReader(inputReaderFile);
             this.processInit();
-            while (readerFile.ready()){
-                profileData.add(readerFile.readLine().split("[,]"));
+            while (readerProfile.ready()){
+                profileData.add(readerProfile.readLine().split("[,]"));
             }
             System.out.println("\n Choose a profile to start the Game:");
             boolean breakThisLoop = false;
@@ -108,6 +113,11 @@ public class WarGameWorld {
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
                                             " is now Playing ****************************\n");
+                                    System.out.println("Would like to view your previous Performance?\n 1. YES\n 2. NO");
+                                    userInputs = readUserInputs.readLine();
+                                    if (userInputs.equals("1")) {
+                                        this.viewPreviousScore();
+                                    }
                                     this.selectGameMode();
                                     this.inputMaxSoldiers();
                                     this.setupGame();
@@ -132,8 +142,32 @@ public class WarGameWorld {
                 if(breakThisLoop)
                     break;
             }
-        readerFile.close();
+        readerProfile.close();
         } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void viewPreviousScore() {
+        ArrayList<String[]> scores = new ArrayList<>();
+        try {
+            while (dataFileReader.ready()) {
+                scores.add(dataFileReader.readLine().split("[,]"));
+            }
+            System.out.println("\t  Game Mode    Score Status    Score");
+            System.out.println("\t  -----------------------------------------------------------");
+            for (int i = 0; i < scores.size(); i++) {
+                if(scores.get(i)[0].equals(currentPlayer.toUpperCase())){
+                    System.out.println("\t"+i+". "+scores.get(i)[1]+"          "+scores.get(i)[2]+"          "+scores.get(i)[3]);
+                }else {
+                    if((i==scores.size()-1) && scores.get(i).length==0)
+                        System.out.println("\t\t\tNo History for "+currentPlayer+"!");
+                }
+            }
+            System.out.println("");
+            System.out.println("Press Enter key to continue with the game.");
+            readUserInputs.readLine();
+            dataFileReader.close();
+        }catch (IOException e){
             throw new RuntimeException(e);
         }
     }
@@ -215,7 +249,6 @@ public class WarGameWorld {
             dataFileWriter.write(currentPlayer.toUpperCase()+","+gameMode.toString()+","+AllyResults+"," +
                             "Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+"\n");
             dataFileWriter.flush();
-            dataFileWriter.close();
             System.out.println("\nGame Score:\n--------------");
             System.out.println(" Player: "+currentPlayer.toUpperCase()+
                     "\n Game Mode: "+gameMode+
@@ -230,10 +263,23 @@ public class WarGameWorld {
         String userInputs;
         System.out.println("\n ############################### WAR GAME ##################################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
-            System.out.println("########################### Initializing game... ###########################");
-            this.initializeGame();
-            if(GameIsInitialized){
-                this.GameThreadHandler();
+            while(true) {
+                System.out.println("########################### Initializing game... ###########################");
+                this.initializeGame();
+                if (GameIsInitialized) {
+                    this.GameThreadHandler();
+                }
+                System.out.println("\nDo you want to run the game again?\n 1. YES\n 2. NO");
+                userInputs = readUserInputs.readLine();
+                if (userInputs.equals("1")) {
+                    this.GameIsInitialized = false;
+                    GameIsTerminated = false;
+                    this.initializeGameDataReadWrite();
+                }else{
+                    System.out.println("\n Game Exiting...");
+                    dataFileWriter.close();
+                    break;
+                }
             }
         }else{
             System.out.println("No Game Profile was found. Do want to create one(1 for YES and 0 for to Exit):");
@@ -244,7 +290,17 @@ public class WarGameWorld {
                     if(GameIsInitialized){
                         this.GameThreadHandler();
                     }
-                    break;
+                    System.out.println("\nDo you want to run the game again?\n 1. YES\n 2. NO");
+                    userInputs = readUserInputs.readLine();
+                    if (userInputs.equals("1")) {
+                        this.GameIsInitialized = false;
+                        GameIsTerminated = false;
+                        this.initializeGameDataReadWrite();
+                    }else{
+                        System.out.println("\n Game Exiting...");
+                        dataFileWriter.close();
+                        break;
+                    }
                 } else if (userInputs.equals("0")) {
                     System.out.println("Exiting.....");
                     break;

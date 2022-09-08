@@ -7,8 +7,8 @@ public class GunThread extends Thread {
     private void SoldiersShooting(Army army){
         for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size());
-            int random = new Random().nextInt(10);
-            if (random%2==0 && army.getSoldiers().get(soldierIndex).isAlive()) {
+            int random = new Random().nextInt(20);
+            if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive()) {
                 army.getSoldiers().get(soldierIndex).shootBullets();
             }
         }
@@ -18,7 +18,7 @@ public class GunThread extends Thread {
         int range = 0;
         for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size() );
-            int random = new Random().nextInt(10);
+            int random = new Random().nextInt(20);
             if(army == WarGameWorld.Ally) {
                 if (gameMode == GameMode.EASY) {
                     range = 6;
@@ -27,10 +27,10 @@ public class GunThread extends Thread {
                 } else if (gameMode == GameMode.HARD) {
                     range = 18;
                 }
-                if (random%2==0 && WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
+                if (random%10==0 && WarGameWorld.SoldierChoice <= range && army.getSoldiers().get(soldierIndex).isAlive()){
                     army.getSoldiers().get(soldierIndex).shot();}
             }else{
-                if (random%2==0 && army.getSoldiers().get(soldierIndex).isAlive())
+                if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive())
                     army.getSoldiers().get(soldierIndex).shot();
             }
         }

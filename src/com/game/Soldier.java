@@ -34,17 +34,17 @@ public class Soldier {
     }
     public void shootBullets() {
         if (this.alive) {
-            System.out.println(this.militaryId + " shooting");
+            System.out.println("\t"+this.militaryId + " shooting");
             try {
                 this.gun.shootBullets();
             } catch (Exception e) {
-                System.out.println("###### BULLETS are DEPLETED for: "+this.militaryId);
+                System.out.println("\t###### BULLETS are DEPLETED for: "+this.militaryId);
             }
         }
     }
     public void shot() {
         this.alive = false;
-        System.out.println(this.militaryId + " just died");
+        System.out.println("\t"+this.militaryId + " just died");
     }
     public void changeShootingMode() {
         this.gun.changeShootingMode();
