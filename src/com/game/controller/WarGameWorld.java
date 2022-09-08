@@ -11,10 +11,10 @@ public class WarGameWorld {
     public static int SoldierChoice;
     public static Army Ally;
     public static Army Enemy;
-    private boolean GameIsInitialized = false;
     public static boolean GameIsTerminated = false;
-    private String currentPlayer;
     public static GameMode gameMode = GameMode.EASY; //this is the default
+    private String currentPlayer;
+    private boolean gameIsInitialized = false;
     private final File profileFile = new File("game_profile.csv");
     private final InputStreamReader inputReader = new InputStreamReader(System.in);
     private final BufferedReader readUserInputs = new BufferedReader(inputReader);
@@ -60,12 +60,12 @@ public class WarGameWorld {
             public void run() {runGame();}
         });
         t0.start();
+        t2.start();
         t1.start();
-        //t2.start();
         GameThread.start();
         try {
+            t2.join();
             t1.join();
-            //t2.join();
             t0.join();
             GameThread.join();
         } catch (InterruptedException e) {
@@ -109,7 +109,7 @@ public class WarGameWorld {
                             while (true) {
                                 userInputs = readUserInputs.readLine();
                                 if (userInputs.equals(playerProfile[1])) {
-                                    this.GameIsInitialized = true;
+                                    this.gameIsInitialized = true;
                                     this.currentPlayer = playerProfile[0];
                                     System.out.println("\n*************************** " + playerProfile[0].toUpperCase() +
                                             " is now Playing ****************************\n");
@@ -126,7 +126,7 @@ public class WarGameWorld {
                                     break; //breaks this while loop
                                 } else {
                                     System.out.println("Wrong Password! Enter Passwd again.");
-                                    this.GameIsInitialized = false;
+                                    this.gameIsInitialized = false;
                                 }
                             }
                             break; //breaks this for loop
@@ -135,7 +135,7 @@ public class WarGameWorld {
                             if (i == profileData.size()-1) {//check if the loop has finished without a match of section
                                 System.out.println("Wrong Choice. Select a profile to start the Game:");
                             }
-                            this.GameIsInitialized = false;
+                            this.gameIsInitialized = false;
                         }
                     }
                 }
@@ -267,13 +267,13 @@ public class WarGameWorld {
             while(true) {
                 System.out.println("########################### Initializing game... ############################");
                 this.initializeGame();
-                if (GameIsInitialized) {
+                if (gameIsInitialized) {
                     this.GameThreadHandler();
                 }
                 System.out.println("\nDo you want to run the game again?\n 1. YES\n 2. NO");
                 userInputs = readUserInputs.readLine();
                 if (userInputs.equals("1")) {
-                    this.GameIsInitialized = false;
+                    this.gameIsInitialized = false;
                     GameIsTerminated = false;
                     this.initializeGameDataReadWrite();
                 }else{
@@ -288,13 +288,13 @@ public class WarGameWorld {
             while (true){
                 if(userInputs.equals("1")) {
                     this.createGameProfile();
-                    if(GameIsInitialized){
+                    if(gameIsInitialized){
                         this.GameThreadHandler();
                     }
                     System.out.println("\nDo you want to run the game again?\n 1. YES\n 2. NO");
                     userInputs = readUserInputs.readLine();
                     if (userInputs.equals("1")) {
-                        this.GameIsInitialized = false;
+                        this.gameIsInitialized = false;
                         GameIsTerminated = false;
                         this.initializeGameDataReadWrite();
                     }else{
