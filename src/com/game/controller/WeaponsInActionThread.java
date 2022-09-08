@@ -9,7 +9,14 @@ public class WeaponsInActionThread extends Thread {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size());
             int random = new Random().nextInt(20);
             if (random%10==0 && army.getSoldiers().get(soldierIndex).isAlive()) {
-                army.getSoldiers().get(soldierIndex).shootBullets();
+                if (ChooseWeaponThread.weapon == Weapons.Gun) {
+                    army.getSoldiers().get(soldierIndex).shootBullets();
+                } else if (ChooseWeaponThread.weapon == Weapons.Tank) {
+                    army.getSoldiers().get(soldierIndex).shootShells();
+                } else if (ChooseWeaponThread.weapon == Weapons.Jet) {
+                    army.getSoldiers().get(soldierIndex).jetFiring();
+                }
+
             }
         }
     }
