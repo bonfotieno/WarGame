@@ -31,7 +31,7 @@ public class WarGameWorld {
             this.dataFileWriter = new BufferedWriter(outputWriterFile);
             this.dataFileReader = new BufferedReader(inputReaderFile);
             if(dataFile.length()==0){
-                this.dataFileWriter.write("Profile Name, Game Mode, Score Status, Score\n");
+                this.dataFileWriter.write("Profile,Mode,Status,Score\n");
                 this.dataFileWriter.flush();
             }
         } catch (IOException e) {
