@@ -6,7 +6,7 @@ enum TankModel{
 }
 public class Tank implements InterfaceTank {
     private String tankNumber;
-    TankModel model;
+    private TankModel model;
     private int shells;
     private int maxShells;
 
@@ -16,19 +16,16 @@ public class Tank implements InterfaceTank {
         this.maxShells = maxShells;
         reloadShells();
     }
-
     public void changeTankModel() {
         if (this.model.equals(TankModel.CANON))
             this.setModel(TankModel.LONGBOW);
         else
             this.setModel(TankModel.CANON);
     }
-
     public void reloadShells() {
         shells = maxShells;
     }
-
-    public void shootShells() {
+    public void shootShells() throws Exception {
         if (shells > 0)
         {
             if (this.model.equals(TankModel.CANON)){
@@ -39,7 +36,8 @@ public class Tank implements InterfaceTank {
                 shells -= 5;
                 System.out.println("^^^");
             }
-        }
+        }else
+            throw new Exception("The Jet ran out of Shells");
     }
     public String getTankNumber() {
         return tankNumber;

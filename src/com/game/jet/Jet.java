@@ -40,7 +40,7 @@ public class Jet {
             this.setJetType("Interceptor");
         }
     }
-    public void fire(){
+    public void fire() throws Exception {
         if (bullets > 0)
         {
             switch (this.jetType) {
@@ -58,7 +58,7 @@ public class Jet {
                 }
             }
         }else
-            System.out.println("The Jet ran out of bullets");
+            throw new Exception("The Jet ran out of bullets");
     }
     public void setJetType(String jetType) {
         this.jetType = jetType;

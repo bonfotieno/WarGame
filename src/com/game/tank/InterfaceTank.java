@@ -2,5 +2,5 @@ package com.game.tank;
 
 public interface InterfaceTank {
     void reloadShells();
-    void shootShells();
+    void shootShells() throws Exception;
 }
