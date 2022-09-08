@@ -32,19 +32,36 @@ public class Soldier {
     }
     public void shootBullets() {
         if (this.alive) {
-            System.out.println("\t"+this.militaryId + " shooting");
             try {
                 this.gun.shootBullets();
+                System.out.println("\t"+this.militaryId + " shooting");
             } catch (Exception e) {
-                System.out.println("\t###### BULLETS are DEPLETED for: "+this.militaryId);
+                System.out.println("\t###### "+this.militaryId+
+                        " tried Shooting but BULLETS are DEPLETED in his gun");
             }
         }
     }
     public void shootShells(){
-        this.tank.shootShells();
+        if (this.alive) {
+            try {
+                this.tank.shootShells();
+                System.out.println("\t"+this.militaryId + " shot a Shell");
+            } catch (Exception e) {
+                System.out.println("\t###### "+this.militaryId+
+                        " tried Shooting but SHELLS are DEPLETED in the Tank");
+            }
+        }
     }
     public void jetFiring(){
-        this.jet.fire();
+        if (this.alive) {
+            try {
+                this.jet.fire();
+                System.out.println("\t"+this.militaryId + " is Shooting from a Jet");
+            } catch (Exception e) {
+                System.out.println("\t###### "+this.militaryId+
+                        " tried Shooting from a Jet BULLETS are DEPLETED in the Jet");
+            }
+        }
     }
     public void changeJetType(){
         this.jet.chooseJetType();
@@ -54,8 +71,5 @@ public class Soldier {
     }
     public void changeTankModel(){
         this.tank.changeTankModel();
-    }
-    public void setGun(Gun gun) {
-        this.gun = gun;
     }
 }
