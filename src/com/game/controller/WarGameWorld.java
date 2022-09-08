@@ -208,7 +208,7 @@ public class WarGameWorld {
             System.out.println("Profile created successfully.\n 1. Continue\n 0. Exit");
             userInputs = readUserInputs.readLine();
             if(userInputs.equals("1")){
-                System.out.println("########################### Initializing game... ###########################");
+                System.out.println("########################### Initializing game... ############################");
                 this.initializeGame();
             }else
                 System.out.println("Exiting...");
@@ -265,7 +265,7 @@ public class WarGameWorld {
         System.out.println("\n ############################### WAR GAME ##################################\n");
         if(isFileExists(profileFile) && profileFile.length() > 0){
             while(true) {
-                System.out.println("########################### Initializing game... ###########################");
+                System.out.println("########################### Initializing game... ############################");
                 this.initializeGame();
                 if (GameIsInitialized) {
                     this.GameThreadHandler();
