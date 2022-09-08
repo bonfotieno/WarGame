@@ -51,7 +51,7 @@ public class Jet {
                 }
                 case "fighter bomber": {
                     missiles--;
-                    System.out.println("\t>>>");
+                    System.out.println("\t>>>vb ");
                     break;
                 }
                 case "Interceptor": {
