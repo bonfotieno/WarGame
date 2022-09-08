@@ -3,7 +3,7 @@ package com.game.controller;
 import com.game.Army;
 import java.util.Random;
 
-public class GunThread extends Thread {
+public class WeaponsInActionThread extends Thread {
     private void SoldiersShooting(Army army){
         for (int k = 0; k < WarGameWorld.maxSoldiers; k ++) {
             int soldierIndex = new Random().nextInt(army.getSoldiers().size());

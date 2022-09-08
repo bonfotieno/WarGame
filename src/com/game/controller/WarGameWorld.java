@@ -53,8 +53,8 @@ public class WarGameWorld {
     }
     private void GameThreadHandler() {
         GenerateSoldierChoice t0 = new GenerateSoldierChoice();
-        GunThread t1 = new GunThread();
-        TankThread t2 = new TankThread();
+        WeaponsInActionThread t1 = new WeaponsInActionThread();
+        ChooseWeaponThread t2 = new ChooseWeaponThread();
         Thread GameThread= new Thread(new Runnable() {
             @Override
             public void run() {runGame();}
