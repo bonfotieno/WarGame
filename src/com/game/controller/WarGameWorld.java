@@ -4,6 +4,8 @@ import com.game.Army;
 import com.game.Soldier;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class WarGameWorld {
@@ -26,12 +28,12 @@ public class WarGameWorld {
     private void initializeGameDataReadWrite(){
         try {
             File dataFile = new File("game_data.csv");
-            InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(dataFile));
             OutputStreamWriter outputWriterFile = new OutputStreamWriter(new FileOutputStream(dataFile, true));
+            InputStreamReader inputReaderFile = new InputStreamReader(new FileInputStream(dataFile));
             this.dataFileWriter = new BufferedWriter(outputWriterFile);
             this.dataFileReader = new BufferedReader(inputReaderFile);
-            if(dataFile.length()==0){
-                this.dataFileWriter.write("Profile,Mode,Status,Score\n");
+            if(dataFile.length()<1){
+                this.dataFileWriter.write("Profile,Mode,Status,Score,Date\n");
                 this.dataFileWriter.flush();
             }
         } catch (IOException e) {
@@ -154,18 +156,15 @@ public class WarGameWorld {
                 scores.add(dataFileReader.readLine().split("[,]"));
             }
             scores.remove(0);
-            System.out.println("\t  Game Mode    Score Status    Score");
-            System.out.println("\t  -----------------------------------------------------------");
+            System.out.println("\t  Game Mode    Score Status    Score                               Date");
+            System.out.println("\t  -------------------------------------------------------------------------------------");
             for (int i = 0; i < scores.size(); i++) {
                 if(scores.get(i)[0].equals(currentPlayer.toUpperCase())){
-                    System.out.println("\t"+i+". "+scores.get(i)[1]+"          "+scores.get(i)[2]+"          "+scores.get(i)[3]);
-                }else {
-                    if((i==scores.size()-1) && scores.get(i).length==0)
-                        System.out.println("\t\t\tNo History for "+currentPlayer+"!");
+                    System.out.println("\t"+i+". "+scores.get(i)[1]+"          "+scores.get(i)[2]
+                            +"          "+scores.get(i)[3]+"    "+scores.get(i)[4]);
                 }
             }
-            System.out.println("");
-            System.out.println("Press Enter key to continue with the game.");
+            System.out.println("\nPress Enter key to continue with the game.");
             readUserInputs.readLine();
             dataFileReader.close();
         }catch (IOException e){
@@ -247,8 +246,10 @@ public class WarGameWorld {
             Thread.sleep(1000);
             int KilledAllySoldiers = findKilledSoldiers(Ally);
             int KilledEnemySoldiers = findKilledSoldiers(Enemy);
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss a");
+            String today = LocalDateTime.now().format(myFormatObj);
             dataFileWriter.write(currentPlayer.toUpperCase()+","+gameMode.toString()+","+AllyResults+"," +
-                            "Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+"\n");
+                            "Killed Ally:"+KilledAllySoldiers+"; Killed Enemy:"+KilledEnemySoldiers+","+today+"\n");
             dataFileWriter.flush();
             System.out.println("\nGame Score:\n--------------");
             System.out.println(" Player: "+currentPlayer.toUpperCase()+
@@ -270,6 +271,7 @@ public class WarGameWorld {
                 if (gameIsInitialized) {
                     this.GameThreadHandler();
                 }
+                dataFileWriter.close();
                 System.out.println("\nDo you want to run the game again?\n 1. YES\n 2. NO");
                 userInputs = readUserInputs.readLine();
                 if (userInputs.equals("1")) {
@@ -278,7 +280,6 @@ public class WarGameWorld {
                     this.initializeGameDataReadWrite();
                 }else{
                     System.out.println("\n Game Exiting...");
-                    dataFileWriter.close();
                     break;
                 }
             }

@@ -100,5 +100,3 @@ public class Jet {
         return maxMissileIntercept;
     }
 }
-
-//public void fly(){System.out.println("The fighter jet is up and flying!!!");}
