@@ -57,10 +57,7 @@ public class WarGameWorld {
         GenerateSoldierChoice t0 = new GenerateSoldierChoice();
         WeaponsInActionThread t1 = new WeaponsInActionThread();
         ChooseWeaponThread t2 = new ChooseWeaponThread();
-        Thread GameThread= new Thread(new Runnable() {
-            @Override
-            public void run() {runGame();}
-        });
+        Thread GameThread= new Thread(this::runGame);
         t0.start();
         t2.start();
         t1.start();
